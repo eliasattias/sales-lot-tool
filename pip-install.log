@@ -1,0 +1,16 @@
+2026-03-03T16:47:31,974 Using pip 25.3 from S:\Shared With Me\Water for Inhalation\BIAutomations\sales-lot-tool\.venv\Lib\site-packages\pip (python 3.13)
+2026-03-03T16:47:31,987 Non-user install because user site-packages disabled
+2026-03-03T16:49:48,531 Created temporary directory: C:\Users\Usuario\AppData\Local\Temp\pip-build-tracker-7hzzisdn
+2026-03-03T16:49:48,533 Initialized build tracking at C:\Users\Usuario\AppData\Local\Temp\pip-build-tracker-7hzzisdn
+2026-03-03T16:49:48,535 Created build tracker: C:\Users\Usuario\AppData\Local\Temp\pip-build-tracker-7hzzisdn
+2026-03-03T16:49:48,550 Entered build tracker: C:\Users\Usuario\AppData\Local\Temp\pip-build-tracker-7hzzisdn
+2026-03-03T16:49:48,567 Created temporary directory: C:\Users\Usuario\AppData\Local\Temp\pip-install-kddl1s_l
+2026-03-03T16:49:48,596 Created temporary directory: C:\Users\Usuario\AppData\Local\Temp\pip-ephem-wheel-cache-s6lh8wdq
+2026-03-03T16:49:49,013 1 location(s) to search for versions of numpy:
+2026-03-03T16:49:49,013 * https://pypi.org/simple/numpy/
+2026-03-03T16:49:49,015 Fetching project page and analyzing links: https://pypi.org/simple/numpy/
+2026-03-03T16:49:49,033 Getting page https://pypi.org/simple/numpy/
+2026-03-03T16:49:49,051 Found index url https://pypi.org/simple/
+2026-03-03T16:49:49,068 Looking up "https://pypi.org/simple/numpy/" in the cache
+2026-03-03T16:49:49,072 Request header has "max_age" as 0, cache bypassed
+2026-03-03T16:49:49,120 Starting new HTTPS connection (1): pypi.org:443
