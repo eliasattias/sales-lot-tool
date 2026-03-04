@@ -133,9 +133,7 @@ def main() -> None:
         )
         st.caption("Accepted format: Excel .xlsx · one file at a time")
 
-        sample_path = Path(
-            r"C:\Users\Usuario\OneDrive\Projects\Sales&InventoryReport_OLD\Scripts\sample.xlsx"
-        )
+        sample_path = Path(__file__).parent / "assets" / "sample.xlsx"
         if sample_path.exists():
             try:
                 with open(sample_path, "rb") as f:
