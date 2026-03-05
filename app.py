@@ -176,6 +176,15 @@ SENSIMEDICAL_CSS = """
         color: #0d9488 !important;
     }
 
+    /* ─── Kill white column block backgrounds ────────────── */
+    [data-testid="stVerticalBlock"],
+    [data-testid="stVerticalBlockBorderWrapper"],
+    [data-testid="column"] > div {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
     /* ─── Alerts ─────────────────────────────────────────── */
     [data-testid="stSuccess"] {
         background: #f0fdf9 !important;
@@ -249,7 +258,7 @@ def main() -> None:
     )
 
     # ─── Two-column layout ────────────────────────────────────
-    left, right = st.columns([1.4, 1], gap="large")
+    left, right = st.columns([1.4, 1])
 
     with left:
         st.markdown('<div class="sm-card">', unsafe_allow_html=True)
