@@ -247,9 +247,8 @@ def render_navbar() -> None:
         <div class="sm-navbar">
             <div class="sm-navbar-brand">
                 {logo_html}
-                <span class="sm-navbar-title">Sales &amp; Inventory Lots</span>
             </div>
-            <div class="sm-navbar-center">Sales &amp; Inventory Lot Intelligence</div>
+            <div class="sm-navbar-center">Sales &amp; Inventory Lots Tool</div>
         </div>
         """,
         unsafe_allow_html=True,
