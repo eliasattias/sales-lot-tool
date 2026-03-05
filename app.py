@@ -68,7 +68,7 @@ SENSIMEDICAL_CSS = """
     .sm-navbar-title {
         font-family: 'DM Sans', sans-serif;
         font-weight: 600;
-        font-size: 0.85rem;
+        font-size: 1.1rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: rgba(255,255,255,0.55);
