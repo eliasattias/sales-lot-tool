@@ -68,7 +68,7 @@ SENSIMEDICAL_CSS = """
     .sm-navbar-title {
         font-family: 'DM Sans', sans-serif;
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: 0.85rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: rgba(255,255,255,0.55);
@@ -87,7 +87,7 @@ SENSIMEDICAL_CSS = """
 
     /* ─── Main content offset for fixed nav ─────────────── */
     .main .block-container {
-        padding-top: 4.5rem !important;
+        padding-top: 5.5rem !important;
         padding-left: 2.5rem !important;
         padding-right: 2.5rem !important;
         max-width: 1400px !important;
@@ -247,8 +247,9 @@ def render_navbar() -> None:
         <div class="sm-navbar">
             <div class="sm-navbar-brand">
                 {logo_html}
+                <span class="sm-navbar-title">Sales &amp; Inventory Lots</span>
             </div>
-            <div class="sm-navbar-center">Sales &amp; Inventory Lots Tool</div>
+            <div class="sm-navbar-center">Sales &amp; Inventory Lot Intelligence</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -269,7 +270,6 @@ def main() -> None:
         """
         <div class="sm-page-header">
             <h1>Sales &amp; Inventory Lot Intelligence</h1>
-            <p>Turn the standard monthly export into clean, lot-level SensiMedical tabs in one upload.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -322,6 +322,7 @@ def main() -> None:
             """
             <div class="sm-col-card">
                 <p class="sm-card-title">What this tool does</p>
+                <p class="sm-card-text">Turn the standard monthly export into clean, lot-level SensiMedical tabs in one upload.</p>
                 <ul class="sm-list">
                     <li>Explodes lot numbers into one row per lot.</li>
                     <li>Allocates Ext Sales, Ext Cost, Weight, and fees by lot.</li>
