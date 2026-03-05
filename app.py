@@ -1,4 +1,3 @@
-from io import BytesIO
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 import base64
@@ -26,6 +25,21 @@ SENSIMEDICAL_CSS = """
     [data-testid="stSidebar"] ~ div { margin-left: 0 !important; }
     [data-testid="stDecoration"] { display: none; }
 
+    /* ─── Nuke ALL white box backgrounds Streamlit injects ── */
+    .stApp > div,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewBlockContainer"],
+    [data-testid="stVerticalBlock"],
+    [data-testid="stVerticalBlockBorderWrapper"],
+    [data-testid="stHorizontalBlock"],
+    [data-testid="column"],
+    section[data-testid="stSidebar"],
+    div[class*="block-container"] {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
     /* ─── Top Navigation Bar ─────────────────────────────── */
     .sm-navbar {
         position: fixed;
@@ -45,7 +59,12 @@ SENSIMEDICAL_CSS = """
         align-items: center;
         gap: 10px;
     }
-    .sm-navbar-brand img { height: 28px; width: auto; }
+    /* Force logo white so it blends with navy */
+    .sm-navbar-brand img {
+        height: 28px;
+        width: auto;
+        filter: brightness(0) invert(1);
+    }
     .sm-navbar-title {
         font-family: 'DM Sans', sans-serif;
         font-weight: 600;
@@ -53,6 +72,17 @@ SENSIMEDICAL_CSS = """
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: rgba(255,255,255,0.55);
+    }
+    .sm-navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffffff;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: -0.01em;
+        pointer-events: none;
     }
 
     /* ─── Main content offset for fixed nav ─────────────── */
@@ -83,14 +113,16 @@ SENSIMEDICAL_CSS = """
         margin: 0;
     }
 
-    /* ─── Cards ──────────────────────────────────────────── */
-    .sm-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 1.3rem 1.5rem 1.4rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        height: 100%;
+    /* ─── Cards — applied to column wrappers ─────────────── */
+    .sm-col-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        padding: 1.4rem 1.6rem !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
+    }
+    .sm-col-card p, .sm-col-card ul, .sm-col-card li {
+        font-family: 'DM Sans', sans-serif;
     }
     .sm-card-title {
         font-size: 0.95rem;
@@ -112,30 +144,29 @@ SENSIMEDICAL_CSS = """
         color: #94a3b8;
         margin: 1rem 0 0.4rem 0;
     }
-    .sm-card ul {
-        margin: 0;
+    .sm-list {
+        margin: 0 0 0.5rem 0;
         padding-left: 1.1rem;
         color: #334155;
         font-size: 0.85rem;
-        line-height: 1.7;
+        line-height: 1.75;
     }
-    .sm-card ul li code {
+    .sm-list li code {
         background: #f1f5f9;
         border-radius: 4px;
-        padding: 1px 5px;
+        padding: 1px 6px;
         font-family: 'DM Mono', monospace;
         font-size: 0.8rem;
         color: #0c1f3a;
     }
 
     /* ─── File uploader ──────────────────────────────────── */
-    [data-testid="stFileUploader"] {
-        border: 2px dashed #e2e8f0 !important;
-        border-radius: 8px !important;
+    [data-testid="stFileUploaderDropzone"] {
         background: #f8fafc !important;
-        padding: 0.5rem !important;
+        border: 2px dashed #cbd5e1 !important;
+        border-radius: 8px !important;
     }
-    [data-testid="stFileUploader"]:hover {
+    [data-testid="stFileUploaderDropzone"]:hover {
         border-color: #0d9488 !important;
     }
 
@@ -148,41 +179,29 @@ SENSIMEDICAL_CSS = """
         border-radius: 8px !important;
         transition: all 0.2s ease !important;
     }
-    /* Primary download */
     .stDownloadButton > button[kind="primary"],
     .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #0c1f3a 0%, #1e3a5f 100%) !important;
+        background: #0c1f3a !important;
         color: white !important;
         border: none !important;
         box-shadow: 0 2px 8px rgba(12,31,58,0.25) !important;
     }
     .stDownloadButton > button[kind="primary"]:hover,
     .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%) !important;
+        background: #0d9488 !important;
         box-shadow: 0 4px 16px rgba(13,148,136,0.3) !important;
         transform: translateY(-1px) !important;
     }
-    /* Secondary */
     .stDownloadButton > button[kind="secondary"],
     .stButton > button[kind="secondary"] {
         background: #ffffff !important;
         color: #0c1f3a !important;
         border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
     }
     .stDownloadButton > button[kind="secondary"]:hover,
     .stButton > button[kind="secondary"]:hover {
         border-color: #0d9488 !important;
         color: #0d9488 !important;
-    }
-
-    /* ─── Kill white column block backgrounds ────────────── */
-    [data-testid="stVerticalBlock"],
-    [data-testid="stVerticalBlockBorderWrapper"],
-    [data-testid="column"] > div {
-        background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
     }
 
     /* ─── Alerts ─────────────────────────────────────────── */
@@ -196,7 +215,6 @@ SENSIMEDICAL_CSS = """
         border-left: 3px solid #ef4444 !important;
         border-radius: 8px !important;
     }
-    [data-testid="stSpinner"] { color: #0d9488 !important; }
 
     /* ─── Caption ────────────────────────────────────────── */
     .stCaption, [data-testid="stCaptionContainer"] {
@@ -231,6 +249,7 @@ def render_navbar() -> None:
                 {logo_html}
                 <span class="sm-navbar-title">Sales &amp; Inventory Lots</span>
             </div>
+            <div class="sm-navbar-center">Sales &amp; Inventory Lot Intelligence</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -261,18 +280,19 @@ def main() -> None:
     left, right = st.columns([1.4, 1])
 
     with left:
-        st.markdown('<div class="sm-card">', unsafe_allow_html=True)
+        # Card header rendered as HTML above the Streamlit widgets
         st.markdown(
             """
-            <p class="sm-card-title">Upload monthly sales workbook</p>
-            <p class="sm-card-text">
-                Use the standard ERP export (.xlsx). We will explode lots, allocate sales and costs,
-                and write back clean tabs ready for analysis.
-            </p>
+            <div class="sm-col-card">
+                <p class="sm-card-title">Upload monthly sales workbook</p>
+                <p class="sm-card-text">
+                    Use the standard ERP export (.xlsx). We will explode lots, allocate sales
+                    and costs, and write back clean tabs ready for analysis.
+                </p>
+            </div>
             """,
             unsafe_allow_html=True,
         )
-
         uploaded = st.file_uploader(
             "Upload Excel file (.xlsx)",
             type=["xlsx"],
@@ -298,33 +318,31 @@ def main() -> None:
         else:
             st.caption("Sample workbook not available on this deployment.")
 
-        st.markdown("</div>", unsafe_allow_html=True)
-
     with right:
-        st.markdown('<div class="sm-card">', unsafe_allow_html=True)
         st.markdown(
             """
-            <p class="sm-card-title">What this tool does</p>
-            <ul>
-                <li>Explodes lot numbers into one row per lot.</li>
-                <li>Allocates Ext Sales, Ext Cost, Weight, and fees by lot.</li>
-                <li>Separates Real Sales, Samples, and Credit Memos.</li>
-                <li>Builds a clean Summary tab for (MPN, Lot) totals.</li>
-            </ul>
-            <p class="sm-card-subtitle">Required columns (first sheet)</p>
-            <p class="sm-card-text" style="margin-bottom:0.4rem;">
-                Column headers must exist exactly with these names (order does not matter):
-            </p>
-            <ul>
-                <li><code>Lot Numbers(QTY)</code></li>
-                <li><code>Qty Shipped</code></li>
-                <li><code>Ext Sales</code></li>
-                <li><code>Sales Price</code></li>
-            </ul>
+            <div class="sm-col-card">
+                <p class="sm-card-title">What this tool does</p>
+                <ul class="sm-list">
+                    <li>Explodes lot numbers into one row per lot.</li>
+                    <li>Allocates Ext Sales, Ext Cost, Weight, and fees by lot.</li>
+                    <li>Separates Real Sales, Samples, and Credit Memos.</li>
+                    <li>Builds a clean Summary tab for (MPN, Lot) totals.</li>
+                </ul>
+                <p class="sm-card-subtitle">Required columns (first sheet)</p>
+                <p class="sm-card-text" style="margin-bottom:0.4rem;">
+                    Column headers must exist exactly with these names (order does not matter):
+                </p>
+                <ul class="sm-list">
+                    <li><code>Lot Numbers(QTY)</code></li>
+                    <li><code>Qty Shipped</code></li>
+                    <li><code>Ext Sales</code></li>
+                    <li><code>Sales Price</code></li>
+                </ul>
+            </div>
             """,
             unsafe_allow_html=True,
         )
-        st.markdown("</div>", unsafe_allow_html=True)
 
     # ─── Processing ───────────────────────────────────────────
     if uploaded is not None:
