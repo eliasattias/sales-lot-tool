@@ -248,7 +248,7 @@ def render_navbar() -> None:
             <div class="sm-navbar-brand">
                 {logo_html}
             </div>
-            <div class="sm-navbar-center">Shipment Console</div>
+            <div class="sm-navbar-center">Sales &amp; Inventory Lots Tool</div>
         </div>
         """,
         unsafe_allow_html=True,
