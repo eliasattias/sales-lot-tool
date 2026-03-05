@@ -50,7 +50,7 @@ SENSIMEDICAL_CSS = """
         align-items: center;
         justify-content: space-between;
         padding: 0 2rem;
-        height: 56px;
+        height: 68px;
         border-bottom: 1px solid rgba(255,255,255,0.06);
         box-shadow: 0 2px 16px rgba(0,0,0,0.25);
     }
@@ -61,7 +61,7 @@ SENSIMEDICAL_CSS = """
     }
     /* Force logo white so it blends with navy */
     .sm-navbar-brand img {
-        height: 28px;
+        height: 48px;
         width: auto;
         filter: brightness(0) invert(1);
     }
