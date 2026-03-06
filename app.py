@@ -237,9 +237,9 @@ def render_navbar() -> None:
         logo_src = f"data:image/png;base64,{b64}"
 
     logo_html = (
-        f'<img src="{logo_src}" alt="SensiMedical" />'
+        f'<img src="{logo_src}" alt="Sensimedical" />'
         if logo_src
-        else '<span style="color:white;font-weight:700;font-size:1rem;">SensiMedical</span>'
+        else '<span style="color:white;font-weight:700;font-size:1rem;">Sensimedical</span>'
     )
 
     st.markdown(
@@ -257,7 +257,7 @@ def render_navbar() -> None:
 
 def main() -> None:
     st.set_page_config(
-        page_title="SensiMedical – Sales & Inventory Lots",
+        page_title="Sensimedical – Sales & Inventory Lot Tool",
         layout="wide",
         page_icon="📊",
     )
